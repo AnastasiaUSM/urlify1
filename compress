@@ -1,0 +1,36 @@
+def compress(text: list[str]) -> int:
+
+    current_char = text[0]  
+    count = 1  #повторения текущего символа
+    write_index = 0  # Индекс для сжатых символов
+
+    for i in range(1, len(text)):
+        if text[i] == current_char:
+            count += 1  # счетчик повторений символа
+        else:
+            text[write_index] = current_char  # cжатый символ и количество его повторений
+            write_index += 1
+            if count > 1: 
+                count_str = str(count)
+                for char in count_str:
+                    text[write_index] = char
+                    write_index += 1
+            
+            current_char = text[i]
+            count = 1
+
+    text[write_index] = current_char #запись символа и его число повторений
+    write_index += 1
+    if count > 1:
+        count_str = str(count)
+        for char in count_str:
+            text[write_index] = char
+            write_index += 1
+
+    return write_index
+
+text = list('AAAABBBCCXYZDDDDEEEFFFAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBB')
+new_len = compress(text)
+
+assert new_len == 20
+assert text[:new_len] == list('A4B3C2XYZD4E3F3A6B28')
