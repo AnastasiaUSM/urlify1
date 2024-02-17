@@ -1,0 +1,42 @@
+def remove_zeroes(numbers: list[int]) -> int:
+    zero_index = 0 
+
+    for i in range(len(numbers)):
+        if numbers[i] != 0: 
+            if i != zero_index: 
+                numbers[i], numbers[zero_index] = numbers[zero_index], numbers[i] 
+            zero_index += 1 
+
+    # Выводим список без нулей
+    print("Список без нулей:", end=" ")
+    for i in range(zero_index):
+        print(numbers[i], end=" ")
+    print()
+
+    return zero_index
+
+nums = [0,42,21,0,100,0,5,1,0,7,3,0,404,0,0]
+new_len = remove_zeroes(nums)
+
+assert new_len == 8
+assert nums[:new_len] == [42,21,100,5,1,7,3,404]
+
+nums = []
+new_len = remove_zeroes(nums)
+assert new_len == 0
+assert nums[:new_len] == []
+
+nums = [6, 9, 2, 7, 5]
+new_len = remove_zeroes(nums)
+assert new_len == 5
+assert nums[:new_len] == [6, 9, 2, 7, 5]
+
+nums = [0, 0, 0, 0, 0]
+new_len = remove_zeroes(nums)
+assert new_len == 0
+assert nums[:new_len] == []
+
+nums = [5, 0, 0, 9, 0, 0,12, 9, 5]
+new_len = remove_zeroes(nums)
+assert new_len == 5
+assert nums[:new_len] == [5, 9, 12, 9, 5]
