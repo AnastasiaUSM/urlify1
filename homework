@@ -1,0 +1,76 @@
+def urlify(text: list[str]) -> int: 
+
+    spaces_count = 0  
+    length = 0 
+
+    for symbol in text: 
+        if symbol != '': 
+            length += 1 
+        # количество непустых элементов
+        if symbol == ' ': 
+            spaces_count += 1 
+       # количество пробелов
+    new_length = length + spaces_count * 2 
+    if new_length == length: 
+        return length 
+    
+    new_index = new_length - 1 
+    old_index = length - 1 
+
+    while old_index >= 0: 
+        if text[old_index] == ' ': 
+            text[new_index] = '0' 
+            text[new_index - 1] = '2' 
+            text[new_index - 2] = '%' 
+            new_index = new_index - 3 
+        else: 
+            text[new_index] = text[old_index] 
+            new_index -= 1 
+        old_index -= 1 
+    
+    replaced_string = ''.join(text[:new_length])
+    print("Полученная строка после замены:", replaced_string)
+    return new_length 
+
+
+text = list('my url') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 8 
+assert text[:new_len] == list('my%20url') 
+print()
+
+text = list(' my  url ') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 17 
+assert text[:new_len] == list('%20my%20%20url%20') 
+print()
+
+text = list('') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 0 
+assert text[:new_len] == list('') 
+print()
+
+text = list(' ') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 3 
+assert text[:new_len] == list('%20') 
+print()
+
+text = list('  ') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 6 
+assert text[:new_len] == list('%20%20') 
+print()
+
+text = list('text') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 4 
+assert text[:new_len] == list('text')
+print()
+
+text = list('%20') + [''] * 21 
+new_len = urlify(text) 
+assert new_len == 3 
+assert text[:new_len] == list('%20') 
+print()
